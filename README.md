@@ -1,59 +1,268 @@
-# Overview
-This repository contains a React frontend, and an Express backend that the frontend connects to.
+# 🚀 End-to-End CI/CD Pipeline on AWS using Jenkins, Docker, Terraform & ECS
 
-# Objective
-Deploy the frontend and backend to somewhere publicly accessible over the internet. The AWS Free Tier should be more than sufficient to run this project, but you may use any platform and tooling you'd like for your solution.
+## 📌 Project Overview
 
-Fork this repo as a base. You may change any code in this repository to suit the infrastructure you build in this code challenge.
+This project demonstrates the implementation of a complete end-to-end CI/CD pipeline on AWS using Infrastructure as Code (Terraform), Docker containerization, Jenkins automation, Amazon Elastic Container Registry (ECR), and Amazon Elastic Container Service (ECS).
 
-# Submission
-1. A github repo that has been forked from this repo with all your code.
-2. Modify this README file with instructions for:
-* Any tools needed to deploy your infrastructure
-* All the steps needed to repeat your deployment process
-* URLs to the your deployed frontend.
+The solution automates the deployment lifecycle by provisioning AWS infrastructure, building Docker images, pushing them to Amazon ECR, and deploying the latest application version to Amazon ECS through a Jenkins pipeline.
 
-# Evaluation
-You will be evaluated on the ease to replicate your infrastructure. This is a combination of quality of the instructions, as well as any scripts to automate the overall setup process.
+This project was built as part of my hands-on DevOps learning journey to demonstrate practical cloud engineering skills, CI/CD automation, and Infrastructure as Code best practices.
 
-# Setup your environment
-Install nodejs. Binaries and installers can be found on nodejs.org.
-https://nodejs.org/en/download/
+---
 
-For macOS or Linux, Nodejs can usually be found in your preferred package manager.
-https://nodejs.org/en/download/package-manager/
+# 🏗️ Solution Architecture
 
-Depending on the Linux distribution, the Node Package Manager `npm` may need to be installed separately.
-
-# Running the project
-The backend and the frontend will need to run on separate processes. The backend should be started first.
+```text
+                    GitHub Repository
+                           │
+                           ▼
+                     Jenkins Pipeline
+                           │
+            ┌──────────────┴──────────────┐
+            ▼                             ▼
+   Build Backend Image          Build Frontend Image
+            │                             │
+            └──────────────┬──────────────┘
+                           ▼
+                  Push Images to Amazon ECR
+                           │
+                           ▼
+               Deploy to Amazon ECS (Fargate)
+                           │
+                           ▼
+               Application Load Balancer (ALB)
+                           │
+                           ▼
+              Frontend ↔ Backend Application
 ```
-cd backend
-npm ci
-npm start
+
+---
+
+# 🛠️ Technologies Used
+
+## Cloud Services
+
+* Amazon EC2
+* Amazon ECS (Fargate)
+* Amazon ECR
+* Application Load Balancer (ALB)
+* Amazon VPC
+* IAM
+* CloudWatch
+
+## Infrastructure as Code
+
+* Terraform
+
+## CI/CD
+
+* Jenkins
+* Git
+* GitHub
+
+## Containers
+
+* Docker
+
+## Application
+
+### Frontend
+
+* React.js
+
+### Backend
+
+* Node.js
+
+---
+
+# 📁 Project Structure
+
+```text
+techpathway-2/
+│
+├── backend/
+│   └── Dockerfile
+│
+├── frontend/
+│   └── Dockerfile
+│
+├── infra/
+│   ├── provider.tf
+│   ├── networking.tf
+│   ├── security.tf
+│   ├── alb.tf
+│   ├── ecs.tf
+│   ├── ecr.tf
+│   ├── iam.tf
+│   ├── jenkins.tf
+│   ├── outputs.tf
+│   └── variables.tf
+│
+├── Jenkinsfile
+├── README.md
+└── .gitignore
 ```
-The backend should response to a GET request on `localhost:8080`.
 
-With the backend started, the frontend can be started.
+---
+
+# ⚙️ Infrastructure Provisioned with Terraform
+
+Terraform provisions the following AWS resources:
+
+* Custom VPC
+* Public Subnets
+* Internet Gateway
+* Route Tables
+* Security Groups
+* Jenkins EC2 Instance
+* Application Load Balancer
+* Target Groups
+* ECS Cluster
+* ECS Task Definitions
+* ECS Services
+* Amazon ECR Repositories
+* IAM Roles
+* CloudWatch Log Groups
+
+---
+
+# 🔄 CI/CD Pipeline Workflow
+
+The Jenkins pipeline automates the following deployment process:
+
+1. Checkout the latest source code from GitHub.
+2. Authenticate with Amazon Elastic Container Registry (ECR).
+3. Build the backend Docker image.
+4. Build the frontend Docker image.
+5. Push both Docker images to Amazon ECR.
+6. Trigger a new deployment on Amazon ECS.
+7. Deploy the updated application behind the Application Load Balancer.
+
+---
+
+# 📦 Docker Images
+
+### Backend
+
+```text
+techpathway-backend
 ```
-cd frontend
-npm ci
-npm start
+
+### Frontend
+
+```text
+techpathway-frontend
 ```
-The frontend can be accessed at `localhost:3000`. If the frontend successfully connects to the backend, a message saying "SUCCESS" followed by a guid should be displayed on the screen.  If the connection failed, an error message will be displayed on the screen.
 
-# Configuration
-The frontend has a configuration file at `frontend/src/config.js` that defines the URL to call the backend. This URL is used on `frontend/src/App.js#12`, where the front end will make the GET call during the initial load of the page.
+---
 
-The backend has a configuration file at `backend/config.js` that defines the host that the frontend will be calling from. This URL is used in the `Access-Control-Allow-Origin` CORS header, read in `backend/index.js#14`
+# 🌐 Deployment
 
-# Optional Extras
-The core requirement for this challenge is to get the provided application up and running for consumption over the public internet. That being said, there are some opportunities in this code challenge to demonstrate your skill sets that are above and beyond the core requirement.
+The application is deployed using:
 
-A few examples of extras for this coding challenge:
-1. Dockerizing the application
-2. Scripts to set up the infrastructure
-3. Providing a pipeline for the application deployment
-4. Running the application in a serverless environment
+* Amazon ECS (Fargate)
+* Amazon ECR
+* Docker
+* Application Load Balancer
+* Jenkins CI/CD Pipeline
 
-This is not an exhaustive list of extra features that could be added to this code challenge. At the end of the day, this section is for you to demonstrate any skills you want to show that’s not captured in the core requirement.
+---
+
+# 🔐 Security
+
+Security best practices implemented include:
+
+* IAM Roles and Policies
+* Security Groups
+* Jenkins Credential Store for AWS authentication
+* Infrastructure provisioned using Terraform
+* Docker container isolation
+
+---
+
+# ✅ Prerequisites
+
+Before running this project, ensure the following tools are installed:
+
+* Terraform
+* Docker
+* Git
+* AWS CLI
+* Jenkins
+* Node.js (for local development)
+* AWS Account with appropriate IAM permissions
+
+---
+
+# 🚀 Getting Started
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/moyoakin/cicd-ecs-pipeline-jenkins.git
+cd cicd-ecs-pipeline-jenkins
+```
+
+## 2. Provision the Infrastructure
+
+```bash
+cd infra
+terraform init
+terraform plan
+terraform apply
+```
+
+## 3. Configure Jenkins
+
+* Install the required Jenkins plugins.
+* Configure AWS credentials in Jenkins.
+* Create a Pipeline job.
+* Point the pipeline to the repository's `Jenkinsfile`.
+
+## 4. Run the Pipeline
+
+Click **Build Now** or configure a GitHub webhook for automatic builds.
+
+---
+
+# 🎯 Skills Demonstrated
+
+This project demonstrates practical experience with:
+
+* Infrastructure as Code (Terraform)
+* AWS Cloud Architecture
+* Docker Containerization
+* Jenkins CI/CD Pipelines
+* Amazon ECS (Fargate)
+* Amazon ECR
+* Application Load Balancer
+* Git & GitHub
+* Linux Administration
+* Cloud Infrastructure Deployment
+* Continuous Integration & Continuous Deployment
+* DevOps Best Practices
+
+---
+
+# 📈 Future Enhancements
+
+Planned improvements include:
+
+* GitHub Webhooks
+* HTTPS with AWS Certificate Manager (ACM)
+* Blue/Green Deployments
+* ECS Auto Scaling
+* CloudWatch Monitoring & Alarms
+* Terraform Remote State (S3 + DynamoDB)
+* SonarQube Code Quality Analysis
+* Automated Unit & Integration Testing
+* Slack / Microsoft Teams Notifications
+
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
+
+Feel free to use, modify, and distribute this project for learning and educational purposes.

@@ -51,7 +51,7 @@ resource "aws_security_group" "jenkins_sg" {
 
 resource "aws_instance" "jenkins_server" {
   ami                         = data.aws_ami.ubuntu_22_04.id
-  instance_type               = "t2.micro"
+  instance_type               = "t3.small"
   subnet_id                   = aws_subnet.public_1.id
   vpc_security_group_ids      = [aws_security_group.jenkins_sg.id]
   associate_public_ip_address = true
