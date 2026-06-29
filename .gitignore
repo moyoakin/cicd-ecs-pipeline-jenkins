@@ -1,1 +1,6 @@
+infra/.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.pem
 node_modules/
